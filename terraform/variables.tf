@@ -9,3 +9,9 @@ variable "ingest_schedule" {
   default     = "rate(6 hours)"
   description = "EventBridge schedule expression controlling how often the Wikipedia ingestion task runs."
 }
+
+variable "github_repo" {
+  type        = string
+  default     = "alex-harvey-z3q/wiki-rag"
+  description = "GitHub repo in owner/repo format"
+}

@@ -7,3 +7,8 @@ output "parsed_bucket" { value = aws_s3_bucket.parsed.bucket }
 output "db_endpoint" { value = aws_db_instance.postgres.address }
 output "ecr_api" { value = aws_ecr_repository.api.repository_url }
 output "ecr_ingest" { value = aws_ecr_repository.ingest.repository_url }
+
+output "github_actions_role_arn" {
+  value       = aws_iam_role.github_actions.arn
+  description = "IAM role ARN for GitHub Actions OIDC (set as AWS_ROLE_TO_ASSUME secret)."
+}
