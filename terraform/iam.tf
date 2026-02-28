@@ -19,6 +19,24 @@ resource "aws_iam_role_policy_attachment" "task_exec" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
+data "aws_iam_policy_document" "task_exec_secrets_doc" {
+  statement {
+    sid     = "AllowReadAppSecrets"
+    effect  = "Allow"
+    actions = [
+      "secretsmanager:GetSecretValue",
+      "secretsmanager:DescribeSecret",
+    ]
+    resources = [data.aws_secretsmanager_secret.app.arn]
+  }
+}
+
+resource "aws_iam_role_policy" "task_exec_secrets" {
+  name   = "${local.project}-task-exec-secrets"
+  role   = aws_iam_role.task_execution.id
+  policy = data.aws_iam_policy_document.task_exec_secrets_doc.json
+}
+
 resource "aws_iam_role" "task_role" {
   name               = "${local.project}-task-role"
   assume_role_policy = data.aws_iam_policy_document.ecs_task_assume.json
@@ -33,11 +51,6 @@ data "aws_iam_policy_document" "task_policy_doc" {
       aws_s3_bucket.parsed.arn,
       "${aws_s3_bucket.parsed.arn}/*"
     ]
-  }
-
-  statement {
-    actions   = ["secretsmanager:GetSecretValue"]
-    resources = [data.aws_secretsmanager_secret.app.arn]
   }
 }
 
