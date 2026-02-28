@@ -19,7 +19,7 @@ readonly INGEST_RULE_NAME="wiki-rag-ingest"
 readonly INGEST_TARGET_ID="ecs-ingest"
 
 log() {
-  echo "[INFO] $*"
+  echo "[INFO] $*" >&2
 }
 
 die() {
