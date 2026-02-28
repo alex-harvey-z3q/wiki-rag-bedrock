@@ -75,11 +75,37 @@ data "aws_iam_policy_document" "github_actions_policy" {
 
   # Needed because the ECS task definition references these roles:
   statement {
-    actions   = ["iam:PassRole"]
+    sid = "AllowPassEcsTaskRoles"
+
+    actions = ["iam:PassRole"]
     resources = [
       aws_iam_role.task_execution.arn,
       aws_iam_role.task_role.arn,
     ]
+
+    condition {
+      test     = "StringEquals"
+      variable = "iam:PassedToService"
+      values = [
+        "ecs-tasks.amazonaws.com",
+        "events.amazonaws.com",
+      ]
+    }
+  }
+
+  statement {
+    sid = "AllowPassEventsRunTaskRole"
+
+    actions = ["iam:PassRole"]
+    resources = [
+      aws_iam_role.events_run_task.arn
+    ]
+
+    condition {
+      test     = "StringEquals"
+      variable = "iam:PassedToService"
+      values   = ["events.amazonaws.com"]
+    }
   }
 }
 
