@@ -50,10 +50,10 @@ build_and_push_image() {
   image_uri="$registry"/"$ECR_REPO_NAME":"$tag"
 
   log "Building image: $image_uri"
-  docker build -f "$DOCKERFILE" -t "$image_uri" "$CONTEXT_DIR"
+  docker build -f "$DOCKERFILE" -t "$image_uri" "$CONTEXT_DIR" >&2
 
   log "Pushing image: $image_uri"
-  docker push "$image_uri"
+  docker push "$image_uri" >&2
 
   echo "$image_uri"
 }
