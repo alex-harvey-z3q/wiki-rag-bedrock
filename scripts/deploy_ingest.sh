@@ -107,9 +107,10 @@ update_eventbridge_target_task_definition() {
 
   local updated_target
   updated_target="$(
-    echo "$target_json" | jq --arg td "$new_td_arn" '
-      .EcsParameters.TaskDefinitionArn = $td
+    echo "$target_json" | jq --arg TD "$new_td_arn" '
+      .EcsParameters.TaskDefinitionArn = $TD
       | {Id, Arn, RoleArn, EcsParameters, Input, InputPath, InputTransformer}
+      | with_entries(select(.value != null))
     '
   )"
 
