@@ -47,7 +47,7 @@ resource "aws_ecs_task_definition" "api" {
       { name = "DB_HOST", value = aws_db_instance.postgres.address },
       { name = "DB_PORT", value = "5432" },
       { name = "DB_NAME", value = "postgres" },
-      { name = "DB_USER", value = var.db_username }
+      { name = "DB_USER", value = local.db_username }
     ]
     secrets = [
       { name = "DB_PASSWORD", valueFrom = "${data.aws_secretsmanager_secret.app.arn}:DB_PASSWORD::" },
@@ -83,7 +83,7 @@ resource "aws_ecs_task_definition" "ingest" {
       { name = "DB_HOST", value = aws_db_instance.postgres.address },
       { name = "DB_PORT", value = "5432" },
       { name = "DB_NAME", value = "postgres" },
-      { name = "DB_USER", value = var.db_username }
+      { name = "DB_USER", value = local.db_username }
     ]
     secrets = [
       { name = "DB_PASSWORD", valueFrom = "${data.aws_secretsmanager_secret.app.arn}:DB_PASSWORD::" },
@@ -116,7 +116,7 @@ resource "aws_ecs_task_definition" "indexer" {
     environment = [
       { name = "PARSED_BUCKET", value = aws_s3_bucket.parsed.bucket },
       { name = "DB_HOST", value = aws_db_instance.postgres.address },
-      { name = "DB_USER", value = var.db_username }
+      { name = "DB_USER", value = local.db_username }
     ]
     secrets = [
       { name = "DB_PASSWORD", valueFrom = "${data.aws_secretsmanager_secret.app.arn}:DB_PASSWORD::" },

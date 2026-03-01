@@ -51,7 +51,7 @@ resource "aws_db_instance" "postgres" {
   allocated_storage       = 20
   db_subnet_group_name    = aws_db_subnet_group.db.name
   vpc_security_group_ids  = [aws_security_group.rds.id]
-  username                = var.db_username
+  username                = local.db_username
   password                = local.db_password
   publicly_accessible     = false
   skip_final_snapshot     = true
