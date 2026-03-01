@@ -61,6 +61,10 @@ data "aws_iam_policy_document" "github_actions_policy" {
       "ecs:RegisterTaskDefinition",
       "ecs:DescribeServices",
       "ecs:DescribeClusters",
+      "ecs:UpdateService",
+      "ecs:ListServices",
+      "ecs:ListTasks",
+      "ecs:DescribeTasks",
     ]
     resources = ["*"]
   }
