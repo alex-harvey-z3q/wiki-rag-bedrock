@@ -20,6 +20,8 @@ DB_PASSWORD = os.environ["DB_PASSWORD"]
 
 PGVECTOR_SCHEMA = os.getenv("PGVECTOR_SCHEMA", "public")
 PGVECTOR_TABLE = os.getenv("PGVECTOR_TABLE", "data_wiki_rag_nodes")
+EMBED_DIM = int(os.environ["EMBED_DIM"])
+
 TOP_K = int(os.getenv("TOP_K", "5"))
 
 TEMPERATURE = float(os.getenv("TEMPERATURE", "0.2"))
