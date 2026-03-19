@@ -31,8 +31,11 @@ def connect() -> psycopg.Connection:
     return conn
 
 
-def fetch_evidence(conn: psycopg.Connection, query_embedding: list[float], k: int) -> list[EvidenceRow]:
-    # pgvector accepts a Python list once adapter is registered.
+def fetch_evidence(
+    conn: psycopg.Connection,
+    query_embedding: list[float],
+    k: int,
+) -> list[EvidenceRow]:
     sql = f"""
       SELECT
         page_title,
@@ -54,9 +57,9 @@ def fetch_evidence(conn: psycopg.Connection, query_embedding: list[float], k: in
     for r in rows:
         out.append(
             EvidenceRow(
-                page_title=r[0],
-                section_title=r[1],
-                url=r[2],
+                page_title=r[0] or "",
+                section_title=r[1] or "",
+                url=r[2] or "",
                 revision_id=r[3],
                 text=r[4] or "",
                 distance=float(r[5]) if r[5] is not None else None,
