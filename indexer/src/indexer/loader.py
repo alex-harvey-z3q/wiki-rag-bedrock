@@ -1,7 +1,9 @@
 import json
+from collections.abc import Iterable
+
 import boto3
-from typing import Iterable, List
 from llama_index.core import Document
+
 from indexer.settings import PARSED_BUCKET, PARSED_PREFIX
 
 
@@ -15,9 +17,9 @@ def _iter_s3_keys(bucket: str, prefix: str) -> Iterable[str]:
                 yield key
 
 
-def load_documents() -> List[Document]:
+def load_documents() -> list[Document]:
     s3 = boto3.client("s3")
-    docs: List[Document] = []
+    docs: list[Document] = []
 
     for key in _iter_s3_keys(PARSED_BUCKET, PARSED_PREFIX):
         obj = s3.get_object(Bucket=PARSED_BUCKET, Key=key)

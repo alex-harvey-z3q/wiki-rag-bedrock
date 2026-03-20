@@ -1,11 +1,12 @@
 from llama_index.core import VectorStoreIndex
+
+from indexer.embeddings import configure_embeddings
 from indexer.loader import load_documents
 from indexer.nodes import get_splitter
-from indexer.embeddings import configure_embeddings
 from indexer.vectorstore import get_storage_context
 
 
-def main():
+def main() -> None:
     configure_embeddings()
     docs = load_documents()
     splitter = get_splitter()
