@@ -42,9 +42,9 @@ resource "aws_ecs_task_definition" "api" {
       { name = "DB_PORT", value = "5432" },
       { name = "DB_NAME", value = "postgres" },
       { name = "DB_USER", value = local.db_username },
-      { name = "VEC_SCHEMA", value = "public" },
-      { name = "VEC_TABLE",  value = "data_wiki_rag_nodes" },
-      { name = "EMBED_DIM",  value = local.embed_dim }
+      { name = "PGVECTOR_SCHEMA", value = "public" },
+      { name = "PGVECTOR_TABLE", value = "data_wiki_rag_nodes" },
+      { name = "EMBED_DIM", value = local.embed_dim }
     ]
     secrets = [
       { name = "DB_PASSWORD", valueFrom = "${data.aws_secretsmanager_secret.app.arn}:DB_PASSWORD::" }
@@ -115,7 +115,11 @@ resource "aws_ecs_task_definition" "indexer" {
       { name = "EMBED_DIM", value = local.embed_dim },
       { name = "PARSED_BUCKET", value = aws_s3_bucket.parsed.bucket },
       { name = "DB_HOST", value = aws_db_instance.postgres.address },
-      { name = "DB_USER", value = local.db_username }
+      { name = "DB_PORT", value = "5432" },
+      { name = "DB_NAME", value = "postgres" },
+      { name = "DB_USER", value = local.db_username },
+      { name = "PGVECTOR_SCHEMA", value = "public" },
+      { name = "PGVECTOR_TABLE", value = "data_wiki_rag_nodes" }
     ]
     secrets = [
       { name = "DB_PASSWORD", valueFrom = "${data.aws_secretsmanager_secret.app.arn}:DB_PASSWORD::" }

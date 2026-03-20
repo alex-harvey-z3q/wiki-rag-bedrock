@@ -90,6 +90,17 @@ data "aws_iam_policy_document" "task_policy_doc" {
     ]
     resources = ["*"]
   }
+
+  statement {
+    sid     = "AllowAwsMarketplaceModelSubscription"
+    effect  = "Allow"
+    actions = [
+      "aws-marketplace:Subscribe",
+      "aws-marketplace:Unsubscribe",
+      "aws-marketplace:ViewSubscriptions",
+    ]
+    resources = ["*"]
+  }
 }
 
 resource "aws_iam_policy" "task_policy" {
