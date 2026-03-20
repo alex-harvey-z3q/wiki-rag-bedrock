@@ -1,3 +1,5 @@
+import os
+
 # AWS / Bedrock
 AWS_REGION = "ap-southeast-2"
 BEDROCK_EMBED_MODEL_ID = "amazon.titan-embed-text-v2:0"
