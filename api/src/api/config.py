@@ -1,28 +1,24 @@
 import os
 
-AWS_REGION = os.getenv("AWS_REGION", "ap-southeast-2")
-AWS_PROFILE = os.getenv("AWS_PROFILE")
+# AWS / Bedrock
+AWS_REGION = "ap-southeast-2"
 
-BEDROCK_CHAT_MODEL_ID = os.getenv(
-    "BEDROCK_CHAT_MODEL_ID",
-    "anthropic.claude-3-sonnet-20240229-v1:0",
-)
-BEDROCK_EMBED_MODEL_ID = os.getenv(
-    "BEDROCK_EMBED_MODEL_ID",
-    "amazon.titan-embed-text-v2:0",
-)
+BEDROCK_CHAT_MODEL_ID = "anthropic.claude-3-5-sonnet-20241022-v2:0"
+BEDROCK_EMBED_MODEL_ID = "amazon.titan-embed-text-v2:0"
 
+# Database (required from environment)
 DB_HOST = os.environ["DB_HOST"]
-DB_PORT = int(os.getenv("DB_PORT", "5432"))
-DB_NAME = os.getenv("DB_NAME", "postgres")
+DB_PORT = 5432
+DB_NAME = "postgres"
 DB_USER = os.environ["DB_USER"]
 DB_PASSWORD = os.environ["DB_PASSWORD"]
 
-PGVECTOR_SCHEMA = os.getenv("PGVECTOR_SCHEMA", "public")
-PGVECTOR_TABLE = os.getenv("PGVECTOR_TABLE", "data_wiki_rag_nodes")
+# pgvector
+PGVECTOR_SCHEMA = "public"
+PGVECTOR_TABLE = "data_wiki_rag_nodes"
 EMBED_DIM = int(os.environ["EMBED_DIM"])
 
-TOP_K = int(os.getenv("TOP_K", "5"))
-
-TEMPERATURE = float(os.getenv("TEMPERATURE", "0.2"))
-MAX_TOKENS = int(os.getenv("MAX_TOKENS", "512"))
+# Retrieval / generation tuning
+TOP_K = 5
+TEMPERATURE = 0.2
+MAX_TOKENS = 512

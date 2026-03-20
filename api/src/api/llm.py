@@ -1,13 +1,22 @@
 from __future__ import annotations
 
+from functools import lru_cache
+from typing import Any, Mapping
+
 import boto3
 
 from .config import AWS_REGION, BEDROCK_CHAT_MODEL_ID, MAX_TOKENS, TEMPERATURE
 
-client = boto3.client("bedrock-runtime", region_name=AWS_REGION)
+
+@lru_cache(maxsize=1)
+def get_bedrock_client():
+    return boto3.client("bedrock-runtime", region_name=AWS_REGION)
 
 
-def answer_with_evidence(question: str, evidence_items: list[dict]) -> str:
+def answer_with_evidence(
+    question: str,
+    evidence_items: list[Mapping[str, Any]],
+) -> str:
     evidence_block = "\n\n".join(
         f"[{i+1}] {item['page']} — {item['section']}\n"
         f"URL: {item['url']}\n"
@@ -23,15 +32,13 @@ def answer_with_evidence(question: str, evidence_items: list[dict]) -> str:
 
     user_prompt = f"Question: {question}\n\nEvidence:\n{evidence_block}"
 
-    response = client.converse(
+    response = get_bedrock_client().converse(
         modelId=BEDROCK_CHAT_MODEL_ID,
         system=[{"text": system_prompt}],
-        messages=[
-            {
-                "role": "user",
-                "content": [{"text": user_prompt}],
-            }
-        ],
+        messages=[{
+            "role": "user",
+            "content": [{"text": user_prompt}],
+        }],
         inferenceConfig={
             "maxTokens": MAX_TOKENS,
             "temperature": TEMPERATURE,
