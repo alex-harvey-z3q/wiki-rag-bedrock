@@ -93,8 +93,8 @@ main() {
   require_cmd jq
 
   local buckets=(
-    "wiki-rag-raw-885164491973"
-    "wiki-rag-parsed-885164491973"
+    "wiki-rag-bedrock-raw-885164491973"
+    "wiki-rag-bedrock-parsed-885164491973"
   )
 
   local bucket
